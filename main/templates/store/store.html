@@ -140,13 +140,13 @@
                             <del class="price-old">{{product.price}}</del>
                         </div> <!-- price-wrap.// -->
                     </div>
-                    <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                    <a href="" class="btn btn-block btn-primary   btn-add-product"  url="{%  url 'add_to_card' product.id %}" >Add to cart </a>
                 </figcaption>
             </figure>
         </div> <!-- col.// -->    
         {% endfor %}
     </div> <!-- row end.// -->
-    
+    <script src="{% static 'js/add_product.js'  %}" ></script>
     
     <nav class="mt-4" aria-label="Page navigation sample">
       <ul class="pagination">

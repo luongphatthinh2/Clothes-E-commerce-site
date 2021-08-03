@@ -70,7 +70,7 @@
         </div> <!-- row.// -->
         <hr>
         {% if single_product.stock > 0 %}
-            <a href="./product-detail.html" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
+            <a href="{% url 'add_to_card' single_product.id %}" class="btn  btn-primary btn-add-product" url="{%  url 'add_to_card' single_product.id %}"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
         {% else %}
             <h2 class="text-danger" > OUT OF STOCK</h2>
         {% endif %}
@@ -78,6 +78,7 @@
             </main> <!-- col.// -->
         </div> <!-- row.// -->
     </div> <!-- card.// -->
+    <script src="{% static 'js/add_product.js'  %}" ></script>
     <!-- ============================ COMPONENT 1 END .// ================================= -->
     
     <br>
