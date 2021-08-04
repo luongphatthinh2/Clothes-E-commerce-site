@@ -27,7 +27,7 @@
     <tbody>
 
     {% for cart_item in cart_items %}
-    <tr>    
+    <tr class="row-data" id="Row{{cart_item.product.id}}">    
         <td>
             <figure class="itemside align-items-center">
                 <div class="aside"><a href="{{ cart_item.product.get_productDetail_url }}"><img src="{{ cart_item.product.image.url}}" class="img-sm"></a></div>
@@ -42,10 +42,11 @@
                         <div class="col"> 
                             <div class="input-group input-spinner">
                                 <div class="input-group-prepend">
-                                <a href="{% url 'remove_from_card' cart_item.product.id %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
+                                <a href="" url_remove= "{% url 'remove_from_card' cart_item.product.id %}" product_id="{{cart_item.product.id}}" class="btn btn-light  btn-deduct-item" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
                                 </div>
-                                <input type="text" class="form-control" id="ItemID{{ cart_item.product.id }}" value="{{cart_item.quantity}}">
-                                <div class="input-group-append">
+                                <input type="text" class="form-control" id="Quantity{{ cart_item.product.id }}" value="{{cart_item.quantity}}">
+
+                                <div class="input-group-append">                                    
                                 <a href="" class="btn btn-light btn-add-item" url="{%  url 'add_to_card' cart_item.product.id %}" product_id="{{cart_item.product.id}}" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
                                 </div>
                             </div> <!-- input-group.// -->
@@ -53,12 +54,12 @@
         </td>
         <td> 
             <div class="price-wrap"> 
-                <var class="price">{{ cart_item.get_subTotal}}</var> 
+                <var id="Subtotal{{ cart_item.product.id }}" class="price">{{ cart_item.get_subTotal}}</var> 
                 <small class="text-muted"> {{cart_item.product.price}} each </small> 
             </div> <!-- price-wrap .// -->
         </td>
         <td class="text-right"> 
-        <a href="{% url 'remove_whole_from_card' cart_item.product.id %}" class="btn btn-danger"> Remove</a>
+        <a href="" url_remove = "{% url 'remove_whole_from_card' cart_item.product.id %}" product_id="{{cart_item.product.id}}" class="btn btn-danger btn-deduct-whole-item"> Remove</a>
         </td>
     </tr>
     {% endfor %}
@@ -66,7 +67,7 @@
     </tbody>
     </table>
     </div> <!-- card.// -->
-    <script src="{% static 'js/add_product.js'  %}" ></script>
+    
     
         </aside> <!-- col.// -->
         <aside class="col-lg-3">
@@ -75,15 +76,15 @@
             <div class="card-body">
                 <dl class="dlist-align">
                   <dt>Total price:</dt>
-                  <dd class="text-right">{{total}}</dd>
+                  <dd class="text-right" id="TotalPrice">{{total}}</dd>
                 </dl>
                 <dl class="dlist-align">
                   <dt>Tax:</dt>
-                  <dd class="text-right"> {{tax}}</dd>
+                  <dd class="text-right" id="Tax"> {{tax}}</dd>
                 </dl>
                 <dl class="dlist-align">
                   <dt> Grand Total (inluding Tax):</dt>
-                  <dd class="text-right text-dark b"><strong>{{grand_total}}</strong></dd>
+                  <dd class="text-right text-dark b" id="GrandTotal"><strong>{{grand_total}}</strong></dd>
                 </dl>
                 <hr>
                 <p class="text-center mb-3">
@@ -98,6 +99,8 @@
     
     
     </div> <!-- row.// -->
+    <script src="{% static 'js/add_product.js'  %}" ></script>
+    <script src="{% static 'js/deduct_product.js'  %}" ></script>
     {% endif %}
     <!-- ============================ COMPONENT 1 END .// ================================= -->
     
