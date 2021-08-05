@@ -7,7 +7,9 @@ $(document).ready(function(){
         let row  = 'Row' + product_id;
         $.ajax({
             url: url_remove,
-            success: function(data){                
+            success: function(data){           
+                // set quantity of cart icon
+                document.getElementById("quantity-cart").innerHTML = data.quantity;    
                 document.getElementById(row).style.display= "none";
                 if (data.total == 0){
                     console.log('data.total 0');
@@ -37,6 +39,9 @@ $(document).ready(function(){
         $.ajax({
             url: url_remove,
             success: function(data){
+                // set quantity of cart icon
+                document.getElementById("quantity-cart").innerHTML = data.quantity;
+                console.log(document.getElementById("quantity-cart").innerHTML);
                 $counter.val( parseInt($counter.val()) - 1 );
                 console.log($counter.val());
                 if ($counter.val() == 0) {  

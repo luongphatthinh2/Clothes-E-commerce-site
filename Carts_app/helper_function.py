@@ -30,6 +30,14 @@ def get_total_tax_grandTotal(cart):
         "grand_total": total + tax
     }
 
+def get_quantity(cart):
+    cart_items = CartItem.objects.filter(cart=cart, is_active=True) 
+    quantiy = 0
+    for cart_item in cart_items:
+        quantiy += cart_item.quantity
+    return quantiy
+
+
 def get_tax(total):
     return (2*total)/100
 
@@ -38,6 +46,7 @@ def response_to_CartPage(cart, cart_item):
     total_tax_grandTotal = get_total_tax_grandTotal(cart)
     response_body = {
         'sub_total': cart_item.get_subTotal(),
+        'quantity': get_quantity(cart),
         **total_tax_grandTotal
     }
     print('DEBUG total_tax_grandTotal ', response_body)

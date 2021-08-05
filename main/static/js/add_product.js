@@ -4,8 +4,10 @@ $(document).ready(function(){
         let url = $(this).attr('url')
         $.ajax({
             url: url,
-            success: function(){
-                alert('Add product to cart successfully')
+            success: function(data){
+                // set quantity of cart icon
+                document.getElementById("quantity-cart").innerHTML = data.quantity;
+                alert('Add product to cart successfully');
             }
         });
         return false;  // use this for not reloading
@@ -22,6 +24,8 @@ $(document).ready(function(){
         $.ajax({
             url: url,
             success: function(data){
+                // set quantity of cart icon
+                document.getElementById("quantity-cart").innerHTML = data.quantity;
                 $counter.val( parseInt($counter.val()) + 1 );
                 document.getElementById($subtotal_id).innerHTML = data.sub_total;
                 document.getElementById('TotalPrice').innerHTML = data.total;
