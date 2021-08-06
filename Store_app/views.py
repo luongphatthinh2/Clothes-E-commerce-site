@@ -46,7 +46,8 @@ def search_product(request):
     paginator = Paginator(products, 3) # shows 3 products per page
     page_number = request.GET.get('page') # when first visit /store, the page_number is none
     page_obj = paginator.get_page(page_number)
-    product_count = page_obj.object_list.count
+    product_count = page_obj.paginator.count
+    print('DEBUG  page_obj.paginator.count ', page_obj.paginator.count)
     context = {
         'product_count': product_count,
         'page_obj': page_obj,

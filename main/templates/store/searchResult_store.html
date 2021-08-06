@@ -120,64 +120,69 @@
     
     <header class="border-bottom mb-4 pb-3">
             <div class="form-inline">
-                <span class="mr-md-auto"> <b>{{product_count}}</b> Items found </span>
+                <span class="mr-md-auto"> <b>Search results for '{{keyword}}':  </b> {{product_count}} results </span>
                 
             </div>
     </header><!-- sect-heading -->
-    
-    <div class="row">
-        {% for product in page_obj.object_list %}
-        <div class="col-md-4">
-            <figure class="card card-product-grid">
-                <div class="img-wrap">                     
-                    <a href="{{product.get_productDetail_url}}"><img src='{{ product.image.url }}'></a>                 
-                </div> <!-- img-wrap.// -->
-                <figcaption class="info-wrap">
-                    <div class="fix-height">
-                        <a href="{{product.get_productDetail_url}}" class="title">{{ product.product_name}}</a>
-                        <div class="price-wrap mt-2">
-                            <span class="price">{{product.price}}</span>
-                            <del class="price-old">{{product.price}}</del>
-                        </div> <!-- price-wrap.// -->
-                    </div>
-                    {% if product.stock > 0 %}
-                    <a href="" class="btn btn-block btn-primary   btn-add-product"  url="{%  url 'add_to_card' product.id %}" >Add to cart </a>
-                    {% else %}
-                    <h3 class="text-danger" > OUT OF STOCK</h3>
-                    {% endif %}
-                </figcaption>
-            </figure>
-        </div> <!-- col.// -->    
-        {% endfor %}
-    </div> <!-- row end.// -->
+    {% if product_count > 0%}
+        <div class="row">
+            {% for product in page_obj.object_list %}
+            <div class="col-md-4">
+                <figure class="card card-product-grid">
+                    <div class="img-wrap">                     
+                        <a href="{{product.get_productDetail_url}}"><img src='{{ product.image.url }}'></a>                 
+                    </div> <!-- img-wrap.// -->
+                    <figcaption class="info-wrap">
+                        <div class="fix-height">
+                            <a href="{{product.get_productDetail_url}}" class="title">{{ product.product_name}}</a>
+                            <div class="price-wrap mt-2">
+                                <span class="price">{{product.price}}</span>
+                                <del class="price-old">{{product.price}}</del>
+                            </div> <!-- price-wrap.// -->
+                        </div>
+                        {% if product.stock > 0 %}
+                        <a href="" class="btn btn-block btn-primary   btn-add-product"  url="{%  url 'add_to_card' product.id %}" >Add to cart </a>
+                        {% else %}
+                        <h3 class="text-danger" > OUT OF STOCK</h3>
+                        {% endif %}
+                    </figcaption>
+                </figure>
+            </div> <!-- col.// -->    
+            {% endfor %}
+        </div> <!-- row end.// -->
+    {% else %}
+        <h2>No results found</h2>
+    {%endif%}
     <script src="{% static 'js/add_product.js'  %}" ></script>
     
-    <nav class="mt-4" aria-label="Page navigation sample">
-      <ul class="pagination">
-        {% if page_obj.has_previous %}
-            <li class="page-item "><a class="page-link" href="?keyword={{keyword}}&page=1">&laquoFirst</a></li>
-            <li class="page-item"><a class="page-link" href="?keyword={{keyword}}&page={{ page_obj.previous_page_number }}">Previous</a></li>
-        {% else %}
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-        {% endif %}
-
-        {% for p in page_obj.paginator.page_range%}
-            {% if p == page_obj.number %}
-                <li class="page-item active" name="page"><a class="page-link"  >{{p}}</a></li>
+    {% if page_obj.has_other_pages %}
+        <nav class="mt-4" aria-label="Page navigation sample">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item "><a class="page-link" href="?keyword={{keyword}}&page=1">&laquoFirst</a></li>
+                <li class="page-item"><a class="page-link" href="?keyword={{keyword}}&page={{ page_obj.previous_page_number }}">Previous</a></li>
             {% else %}
-                <li class="page-item" name="page"><a class="page-link" href="?keyword={{keyword}}&page={{ p}}">{{p}}</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
             {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <li class="page-item"><a class="page-link" href="?keyword={{keyword}}&page={{ page_obj.next_page_number }}">Next</a></li>
-            <li class="page-item "><a class="page-link" href="?keyword={{keyword}}&page={{ page_obj.paginator.num_pages }}">Last&raquo;</a></li>
-           
-        {% else %}
-            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-        {% endif %}
-      </ul>
-    </nav>
+            {% for p in page_obj.paginator.page_range%}
+                {% if p == page_obj.number %}
+                    <li class="page-item active" name="page"><a class="page-link"  >{{p}}</a></li>
+                {% else %}
+                    <li class="page-item" name="page"><a class="page-link" href="?keyword={{keyword}}&page={{ p}}">{{p}}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?keyword={{keyword}}&page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item "><a class="page-link" href="?keyword={{keyword}}&page={{ page_obj.paginator.num_pages }}">Last&raquo;</a></li>
+            
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+            {% endif %}
+        </ul>
+        </nav>
+    {% endif %}
     
         </main> <!-- col.// -->
     
