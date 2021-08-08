@@ -45,17 +45,21 @@ def remove_product_from_cart(request,product=None, cart=None):
         is_active=True)
     cart_item = check_existed_variationInCart(request, cart_items)
     if cart_item.quantity == 1:
-        return remove_whole_product_from_cart(product,cart)
+        return remove_whole_product_from_cart(request,product,cart)
     cart_item.quantity -= 1
     cart_item.save()    
-
     # calculate total, price, and grand total the return them as JSON
     return response_to_CartPage(cart, cart_item)    
 
 
 # remove a whole product from cart
-def remove_whole_product_from_cart(product=None, cart=None):
-    cart_item = CartItem.objects.get(cart=cart, product=product, is_active=True)   
+def remove_whole_product_from_cart(request, product=None, cart=None):
+    cart_items = CartItem.objects.filter(
+        cart=cart, 
+        product=product,
+        is_active=True
+    )   
+    cart_item = check_existed_variationInCart(request, cart_items)
     cart_item.delete() 
 
     # calculate total, price, and grand total the return them as JSON
