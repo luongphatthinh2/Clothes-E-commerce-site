@@ -33,7 +33,11 @@
                 <div class="aside"><a href="{{ cart_item.product.get_productDetail_url }}"><img src="{{ cart_item.product.image.url}}" class="img-sm"></a></div>
                 <figcaption class="info">
                     <a href="{{ cart_item.product.get_productDetail_url }}" class="title text-dark">{{cart_item.product.product_name}}</a>
-                    <p class="text-muted small">Color: 25 Mpx <br> Size: Canon</p>
+                    <div>
+                        {% for key,value in cart_item.get_variation_dict.items %}
+                        <p  class="text-muted small Variation{{cart_item.id}}">{{key |capfirst}}: {{value}}</p>
+                        {% endfor %}  
+                    </div>                                                              
                 </figcaption>
             </figure>
         </td>
@@ -44,17 +48,17 @@
                                 <div class="input-group-prepend">
                                 <a href="" url_remove= "{% url 'remove_from_card' cart_item.product.id %}" product_id="{{cart_item.product.id}}" class="btn btn-light  btn-deduct-item" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
                                 </div>
-                                <input type="text" class="form-control" id="Quantity{{ cart_item.product.id }}" value="{{cart_item.quantity}}">
+                                <input type="text" class="form-control" id="Quantity{{cart_item.id}}" value="{{cart_item.quantity}}">
 
                                 <div class="input-group-append">                                    
-                                <a href="" class="btn btn-light btn-add-item" url="{%  url 'add_to_card' cart_item.product.id %}" product_id="{{cart_item.product.id}}" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
+                                <a href="" class="btn btn-light btn-add-item" url="{%  url 'add_to_card' cart_item.product.id %}" product_id="{{cart_item.id}}" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
                                 </div>
                             </div> <!-- input-group.// -->
                         </div> <!-- col.// -->
         </td>
         <td> 
             <div class="price-wrap"> 
-                <var id="Subtotal{{ cart_item.product.id }}" class="price">{{ cart_item.get_subTotal}}</var> 
+                <var id="Subtotal{{ cart_item.id }}" class="price">{{ cart_item.get_subTotal}}</var> 
                 <small class="text-muted"> {{cart_item.product.price}} each </small> 
             </div> <!-- price-wrap .// -->
         </td>

@@ -28,3 +28,30 @@ class Product(models.Model):
         #     id = self.category
         # )
         return reverse('product_detail',args=[self.category, self.slug])
+    def get_variations(self,varation_type):
+        variation_list = []
+        variations = self.variation_set.filter(variation_category=varation_type,is_active=True)
+        for variation in variations:
+            variation_list.append(variation.variation_value)
+        return variation_list
+    def get_color(self):
+        return self.get_variations('color')
+
+    def get_size(self):
+        return self.get_variations('size')
+
+
+variation_category_choice =(
+    ('color','color'),
+    ('size', 'size'),
+)
+class Variation(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    variation_category = models.CharField(max_length=100, choices=variation_category_choice)
+    variation_value = models.CharField(max_length=100)
+    is_active =  models.BooleanField(default=True)
+    created_date = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.variation_category}: {self.variation_value}"
+        # return {self.variation_category:self.variation_value }

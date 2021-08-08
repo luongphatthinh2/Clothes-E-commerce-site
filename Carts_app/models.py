@@ -1,4 +1,4 @@
-from Store_app.models import Product
+from Store_app.models import Product, Variation
 from django.db import models
 
 # Create your models here.
@@ -14,9 +14,18 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     is_active = models.BooleanField(default=True)
+    variation = models.ManyToManyField(Variation)
 
     def __str__(self) -> str:
-        return self.product
+        return self.product.product_name
 
     def get_subTotal(self):
         return self.product.price * self.quantity
+    def get_variation_dict(self):
+        variations = self.variation.all()       
+        variation_dict ={}
+        for variation in variations:        
+            key = variation.variation_category # variation_category in table Variation
+            value = variation.variation_value # variation_value in table Variation
+            variation_dict[key] = value
+        return variation_dict

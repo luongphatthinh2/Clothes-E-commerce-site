@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render,redirect
-from .models import Product
+from .models import Product, Variation
 from Category_app.models import Category
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -32,8 +32,9 @@ def product_detail(request, category_slug, product_slug):
         category__category_name=category_slug
     )
     context = {
-        'single_product': single_product
+        'single_product': single_product,
     }
+        
     return render(request,'store/product_detail.html', context)
 
 def search_product(request):
@@ -47,7 +48,6 @@ def search_product(request):
     page_number = request.GET.get('page') # when first visit /store, the page_number is none
     page_obj = paginator.get_page(page_number)
     product_count = page_obj.paginator.count
-    print('DEBUG  page_obj.paginator.count ', page_obj.paginator.count)
     context = {
         'product_count': product_count,
         'page_obj': page_obj,

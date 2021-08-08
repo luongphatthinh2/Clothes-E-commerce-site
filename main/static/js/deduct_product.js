@@ -38,6 +38,10 @@ $(document).ready(function(){
         let row  = 'Row' + product_id;
         $.ajax({
             url: url_remove,
+            data: {
+                "color": color_option,
+                "size": size_option
+            },
             success: function(data){
                 // set quantity of cart icon
                 document.getElementById("quantity-cart").innerHTML = data.quantity;
